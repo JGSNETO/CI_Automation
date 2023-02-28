@@ -181,3 +181,37 @@ Example
 - Set Tags, Remove tags, fail and pass execution keywords: These builtIn keywords can be used to manipulate tags dunamically during the test execution.
 
 ## Test Setup 
+
+- A test setup is something that is executed before a test case.
+- A test teardown is executed after a test case. The test teardown is special in two ways. First of all, it is executed also when a test case fails, so it can be used for clean-up activities that must be done regardeless of the test case status. In addition, all the keywords in the teardown are also executed even if one of them fails. This continue on failure functionality can be used also with normal keywords, but inside teardowns it is on by default. 
+
+```
+*** Settings ***
+Test Setup       Open Application    App A
+Test Teardown    Close Application
+
+```
+
+### Creating test suites
+
+- Robot framework test cases are created in test case files, which can be organized into directories. Tehse files and directories create a hierarchical test suite structure. Same concepts apply also when creating tasks, but the terminology differs. 
+
+## Test case files 
+
+- Robot Framework test cases are created using test case files. Such a file automatically creates a test suite from all the test cases it contains. There is no upper limit for how many test cases there can be, but it is recommended to have less than ten, unless the data-driven approach is used, where one test case consists of only one high-level keyword. 
+
+- The following settings in te setting section can be used to customize the test suite:
+
+```
+Documentation
+    Used for specifying a test suite documentation
+Metadata
+    Used for setting free test suite metadata as name-value pairs.
+Suite Setup, Suite Teardown
+    Specify suite setup and teardown.
+```
+
+### Using Test Libray
+
+- Test libraries contain those lowest-level keywords, oftern called library keywords, which actuall interact with the system under test. All test cases always use keywords from some library, often through higher-lvel user keywords.   
+
