@@ -211,7 +211,75 @@ Suite Setup, Suite Teardown
     Specify suite setup and teardown.
 ```
 
-### Using Test Libray
+### Using Test Library
 
 - Test libraries contain those lowest-level keywords, oftern called library keywords, which actuall interact with the system under test. All test cases always use keywords from some library, often through higher-lvel user keywords.   
+
+- Importing libraries:
+```
+*** Settings ***
+Library OperatingSystem
+Library my.package.TestLibrary
+Library ${LIBRARY}
+```
+- Using physical path to library 
+```
+*** Settings ***
+Library realive/path/PythonDirLib
+Library ${RESOURCES}/Example.class
+```
+
+## Variables 
+
+- Robot Framework has it own variables that can be used as scalars, lists or dictionaries using sytax ${SCALAR}, @{LIST} and &{DICT}. Environmental variables %{var}.
+- Variables are case sensetive. Is a good pratice to use capital letters for global variables and small letters with local variables that are only available in certain test cases. 
+
+### Scalar variable syntax
+```
+Constants
+    Log    Hello
+    Log    Hello, world!!
+
+Variables
+    Log    ${GREET}
+    Log    ${GREET}, ${NAME}!!
+```
+
+### List variable syntax
+- List are expanded and individual items are passed in as separate arguments. 
+```
+*** Test Cases ***
+Constants
+    Login    robot    secret
+
+List Variable
+    Login    @{USER}
+```
+- using a variable as a list requires its value to be a python list or list-like object.
+```
+*** Test Cases ***
+Nested container
+    ${nested} =    Evaluate    [['a', 'b', 'c'], {'key': ['x', 'y']}]
+    Log Many    @{nested}[0]         # Logs 'a', 'b' and 'c'.
+    Log Many    @{nested}[1][key]    # Logs 'x' and 'y'.
+
+Slice
+    ${items} =    Create List    first    second    third
+    Log Many    @{items}[1:]         # Logs 'second' and  'third'.
+```
+
+### Dictionary Variable Syntax
+
+- So,oöaröy a variable containing a Python dictionary or a dictionary-like object can be used as a dictionary variable like &{EXAMPLE}. In pratice this means that the dictionary is expanded and individual items are passed as named arguments to the keyword. 
+
+```
+*** Test Cases ***
+Constants
+    Login    name=robot    password=secret
+
+Dict Variable
+    Login    &{USER}
+```
+
+  
 
